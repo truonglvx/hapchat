@@ -47,15 +47,16 @@ module.exports = {
 
         var writeToFile = function (next) {
 
-            var path = Path.join(__dirname, '../../static/photos', photoId + '.png');
-            var file = Fs.createWriteStream(path);
 
             var err = null;
-//request.raw.req.pipe(process.stdout);
+
             try {
-                //request.payload.image.pipe(Fs.createWriteStream(path));
-                //request.raw.req.pipe(Fs.createWriteStream(path));
-                request.payload.image.pipe(file);
+
+var path = Path.join(__dirname, '../../static/photos', photoId + '.png');
+var image = request.payload.image.replace(/^data:image\/png;base64,/, '');
+
+Fs.writeFileSync(path, image, { encoding: 'base64' });
+
             }
             catch (e) {
                 err = e;
